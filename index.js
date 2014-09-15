@@ -17,14 +17,29 @@ var Youtube = module.exports = function Youtube (opts) {
   });
 };
 
+/**
+ * Youtube#id - set api key
+ * @param {String} id - api key
+ * @return this
+ */
 Youtube.prototype.id = function (id) {
   return this._id = id, this;
 };
 
+/**
+ * Youtube#part - add a partial resource
+ * @param {String} part - name of partial resource (snippet, contentDetails...)
+ * @return this
+ */
 Youtube.prototype.part = function (part) {
   return this._parts.push(part), this;
 };
 
+/**
+ * Youtube#done - run query
+ * @param {Function} cb - (err, body) response body
+ * @return {Request}
+ */
 Youtube.prototype.done = function (cb) {
   return request
     .get(endpoint)
