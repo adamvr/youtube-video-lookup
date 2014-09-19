@@ -2,6 +2,7 @@
  * Module dependencies
  */
 var request = require('superagent')
+  , q = require('q')
   , _ = require('underscore');
 
 // Api endpoint
@@ -41,12 +42,17 @@ Youtube.prototype.part = function (part) {
  * @return {Request}
  */
 Youtube.prototype.done = function (cb) {
-  return request
+  var deferred = q.defer();
+
+  request
     .get(endpoint)
     .query({id: this.opts.id})
     .query({key: this._id})
     .query({part: this._parts.join(',')})
     .end(function (err, res) {
-      return cb(err, res.body);
+      if (err) return deferred.reject(err);
+      return deferred.resolve(res.body);
     });
+
+  return deferred.promise.nodeify(callback);
 };
