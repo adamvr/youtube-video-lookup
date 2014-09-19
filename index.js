@@ -33,7 +33,8 @@ Youtube.prototype.id = function (id) {
  * @return this
  */
 Youtube.prototype.part = function (part) {
-  return this._parts.push(part), this;
+  part = _.toArray(part);
+  return this._parts.concat(part), this;
 };
 
 /**
